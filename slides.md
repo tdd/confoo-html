@@ -2,8 +2,8 @@
 theme: ./theme
 titleTemplate: 'Things You Don’t Know about JavaScript in 2023. A talk by Christophe Porteneuve at Smashing Conference Freiburg 2023'
 background: /covers/mosi-knife--PVgDgKXgZA-unsplash.jpg
-download: false
-# exportFilename: smashing-freiburg-2023-javascript-porteneuve
+download: true
+exportFilename: smashing-freiburg-2023-javascript-porteneuve
 class: text-center
 highlighter: shiki
 monaco: false

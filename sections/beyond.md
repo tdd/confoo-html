@@ -3,59 +3,42 @@ layout: cover
 background: /covers/jan-tinneberg-tVIv23vcuz4-unsplash.jpg
 ---
 
-# ES2025 et après
+# ES2025 and beyond
 
 ---
 
-# Temporal 🥳 <span class="stage">stade 3</span>
+# Temporal 🥳 <span class="stage">stage 3</span>
 
-Marre de le prédire pour la prochaine, je prends plus de risques…
-
-Va (avantageusement) remplacer Moment, Luxon, date-fns, etc.  On a déjà `Intl` pour le formatage, mais là on parle de calculs furieux. API en style immuable, précise à la nanoseconde, avec toutes les TZ, qui distingue entre temps absolu et local, durée et intervalle, etc.  Le top !
+This will (advantageously) replace Moment, Luxon, date-fns, etc. We already have `Intl` for formatting, but we're upping our game here. Immutable-style API, nanosecond precision, all TZ supported, distinguishes absolute and local time, duration vs. interval, etc.  Just awesome! Check out the [docs](https://tc39.es/proposal-temporal/docs/), [cookbook](https://tc39.es/proposal-temporal/docs/cookbook.html) and [Maggie's talk at dotJS 2019](https://www.dotconferences.com/2019/12/maggie-johnson-pint-making-time-make-sense)!
 
 ```js
 const meeting1 = Temporal.Date.from('2020-01-01')
 const meeting2 = Temporal.Date.from('2020-04-01')
 const time = Temporal.Time.from('10:00:00')
 const timeZone = new Temporal.TimeZone('America/Montreal')
-
-const absolute1 = timeZone.getAbsoluteFor(meeting1.withTime(time))
-// => 2020-01-01T15:00:00.000Z
-const absolute2 = timeZone.getAbsoluteFor(meeting2.withTime(time))
-// => 2020-01-01T14:00:00.000Z
+timeZone.getAbsoluteFor(meeting1.withTime(time)) // => 2020-01-01T15:00:00.000Z
+timeZone.getAbsoluteFor(meeting2.withTime(time)) // => 2020-01-01T14:00:00.000Z
 ```
 
-Allez voir [les docs](https://tc39.es/proposal-temporal/docs/), [le cookbook](https://tc39.es/proposal-temporal/docs/cookbook.html) et [le talk de Maggie à dotJS 2019](https://www.dotconferences.com/2019/12/maggie-johnson-pint-making-time-make-sense) !
-
----
-
-# Groupement de tableaux 🎉 <span class="stage">stade 2</span>
-
-Encore un clou dans le cercueil de Lodash.
+<v-click>
 
 ```js
-const schedule = [
-  { label: 'Enregistrement et petit déjeuner', time: '08:20', type: 'hallway' },
-  { label: 'Keynote organisateurs', time: '09:00', type: 'stage' },
-  { label: 'Les tendances du recrutement IT en 2023 !', time: '09:20', type: 'stage' },
-  { label: 'Présentation des talks et des ateliers', time: '10:00', type: 'stage' },
-  // …
-]
-schedule.group(({ type }) => type)
-// {
-//   hallway: [{ label: 'Enregistrement…'… }],
-//   stage: [{ label: 'Keynote…'… }, { label: 'Les tendances……'… }, { label: 'Présentation des…'… }]
-// }
+const departure = Temporal.ZonedDateTime.from('2020-03-08T11:55:00+08:00[Asia/Hong_Kong]');
+const arrival = Temporal.ZonedDateTime.from('2020-03-08T09:50:00-07:00[America/Los_Angeles]');
+departure.until(arrival).toString() // => 'PT12H55M'
 
-schedule.groupToMap(({ type }) => type)
-// => La même chose, **en tant que Map** (donc n’importe quel type de clé !)
+const flightTime = Temporal.Duration.from({ hours: 14, minutes: 10 }); // { minutes: 850 } would work too
+const parisArrival = departure.add(flightTime).withTimeZone('Europe/Paris');
+parisArrival.toString() // => '2020-03-08T19:05:00+01:00[Europe/Paris]')
 ```
+
+</v-click>
 
 ---
 
-# Normalisation de collection et `Map#emplace()` <span class="stage">stade 2</span>
+# Colleciton normalization and `Map#emplace()` <span class="stage">stage 2</span>
 
-Permet d'intervenir à la volée sur les arrivées de données dans les `Map`, pour les normaliser / nettoyer voire les contraindre / refuser. Quant à `emplace()`, elle permet de gérer *l'upsert* de façon atomatique, avec des comportement différenciables.
+Lets you intercept incoming data for `Map`s so you can normalize / cleanup or even constraint / deny them.
 
 ```js
 const headers = new Map(undefined, {
@@ -63,7 +46,13 @@ const headers = new Map(undefined, {
 })
 headers.set('X-Requested-With', 'politeness')
 headers // => Map { 'x-requested-with': 'politeness' }
+```
 
+<v-click>
+
+As for `emplace()`, it provides a sort of automatic *upsert*, with variable behavior.
+
+```js
 function addVisit(path) {
   visitCounts.emplace(path, {
     insert: () => 0,                     // Arguments: key, map
@@ -72,11 +61,13 @@ function addVisit(path) {
 }
 ```
 
+</v-click>
+
 ---
 
-# `Iterator.range` 🤩 <span class="stage">stade 2</span>
+# `Iterator.range` 🤩 <span class="stage">stage 2</span>
 
-On aurait enfin un générateur de séquence arithmétique ! Avec les utilitaires d'itération, c'est juste le bonheur…
+Finally an arithmetic sequence generator!  Coupled with iterator helpers, it's just too good…
 
 ```js
 Iterator.range(0, 5).toArray()
@@ -91,72 +82,72 @@ Iterator.range(1, 7, { step: 3, inclusive: true })
 // => ['*', '****', '*******']
 ```
 
-Jouez avec le [playground](https://tc39.es/proposal-iterator.range/playground.html) !
+Go have fun in the [playground!](https://tc39.es/proposal-iterator.range/playground.html)
 
 ---
 
-# Records &amp; Tuples : l'immutabilité en force 💖 <span class="stage">stade 2</span>
+# Records &amp; Tuples: Immutability FTW 💖 <span class="stage">stage 2</span>
 
-Objets (records) et tableaux (tuples) immuables en profondeur et natifs.  On bénéficie de tous les avantages de l'immutabilité (ex. l'identité référentielle), et ça aide à promouvoir la programmation fonctionnelle en JS.
+Deep, native immutable objects (records) and arrays (tuples).  We get all the benefits of immutability (e.g. referential equality), and it helps promote functional programming in JS.
 
-Tous les opérateurs et API habituels fonctionnent (`in`, `Object.keys()`, `Object.is()`, `===`, etc.), et ça interagit très bien avec la bibliothèque standard du langage.  On peut facilement convertir depuis des version modifiables, grâce à des *factories*.  Et en prime, on a `JSON.parseImmutable()` !
+All the usual operators and APIs work (`in`, `Object.keys()`, `Object.is()`, `===`, etc.), and this plays nicely with the standard library.  You can easily convert from mutable versions using factories.  Cherry-on-top: `JSON.parseImmutable()`!
 
 ```js
 // Records
 const grace1 = #{ given: 'Grace', family: 'Hopper' }
 const grace2 = #{ given: 'Grace', family: 'Kelly' }
 const grace3 = #{ ...grace2, family: 'Hopper' }
-grace1 === grace3 // => true !
-Object.keys(grace1) // => ['family', 'given'] -- trié !
+grace1 === grace3 // => true!
+Object.keys(grace1) // => ['family', 'given'] -- sorted!
 
 // Tuples
-#[1, 2, 3] === #[1, 2, 3] // => true !
+#[1, 2, 3] === #[1, 2, 3] // => true!
 ```
 
 <Footnote>
 
-Amusez-vous avec le super [tutoriel](https://tc39.es/proposal-record-tuple/tutorial/), le [playground](https://rickbutton.github.io/record-tuple-playground/#eyJjb250ZW50IjoiLy8gU2FsdXQgbCdhdWRpdG9pcmUgZGUgUml2aWVyYURFViAhXG5cbi8vIFJlY29yZHNcbmNvbnN0IGdyYWNlMSA9ICN7IGdpdmVuOiAnR3JhY2UnLCBmYW1pbHk6ICdIb3BwZXInIH1cbmNvbnN0IGdyYWNlMiA9ICN7IGdpdmVuOiAnR3JhY2UnLCBmYW1pbHk6ICdLZWxseScgfVxuY29uc3QgZ3JhY2UzID0gI3sgLi4uZ3JhY2UyLCBmYW1pbHk6ICdIb3BwZXInIH1cblxuZ3JhY2UxID09PSBncmFjZTMgLy8gPT4gdHJ1ZaAhXG5PYmplY3Qua2V5cyhncmFjZTEpIC8vID0+IFsnZmFtaWx5JywgJ2dpdmVuJ10gLS0gdHJp6aAhXG5cbi8vIFR1cGxlc1xuI1sxLCAyLCAzXSA9PT0gI1sxLCAyLCAzXSAvLyA9PiB0cnVloCEiLCJzeW50YXgiOiJoYXNoIiwiZG9tTW9kZSI6ZmFsc2V9) sympa et le [cookbook](https://tc39.es/proposal-record-tuple/cookbook/) incroyable !
+Have fun with the [tutorial](https://tc39.es/proposal-record-tuple/tutorial/), sweet [playground](https://rickbutton.github.io/record-tuple-playground/#eyJjb250ZW50IjoiLy8gU2FsdXQgbCdhdWRpdG9pcmUgZGUgUml2aWVyYURFViAhXG5cbi8vIFJlY29yZHNcbmNvbnN0IGdyYWNlMSA9ICN7IGdpdmVuOiAnR3JhY2UnLCBmYW1pbHk6ICdIb3BwZXInIH1cbmNvbnN0IGdyYWNlMiA9ICN7IGdpdmVuOiAnR3JhY2UnLCBmYW1pbHk6ICdLZWxseScgfVxuY29uc3QgZ3JhY2UzID0gI3sgLi4uZ3JhY2UyLCBmYW1pbHk6ICdIb3BwZXInIH1cblxuZ3JhY2UxID09PSBncmFjZTMgLy8gPT4gdHJ1ZSFcbk9iamVjdC5rZXlzKGdyYWNlMSkgLy8gPT4gWydmYW1pbHknLCAnZ2l2ZW4nXSAtLSBzb3J0ZWQhXG5cbi8vIFR1cGxlc1xuI1sxLCAyLCAzXSA9PT0gI1sxLCAyLCAzXSAvLyA9PiB0cnVlISIsInN5bnRheCI6Imhhc2giLCJkb21Nb2RlIjpmYWxzZX0=) and amazing [cookbook](https://tc39.es/proposal-record-tuple/cookbook/)!
 
 </Footnote>
 
 ---
 
-# `Object.pick()` / `omit()` 🥹 <span class="stage">stade 1</span>
+# `Object.pick()` / `omit()` 🥹 <span class="stage">stage 1</span>
 
-Il serait temps qu'on n'ait plus besoin de Lodash pour ça…  C'est récent (juillet 2022), ça accepte des jeux de clés ou un prédicat (avec un spécificateur `this` optionnel).
+I so want to get rid of Lodash for this…  This is kinda recent (July 2022) and doesn't seem to be high-priority, but hey.  Accepts key sets or a predicate (with an optional `this` specifier).
 
 
 ```js
-  const conference = { name: 'RivieraDEV', year: 2023, city: 'Sophia Antipolis', speakers: 84 }
+  const conference = { name: 'Smashing Conference Freiburg', year: 2023, city: 'Freiburg', speakers: 13 }
   Object.pick(conference, ['name', 'year'])
-  // => { name: 'RivieraDEV', year: 2023 }
+  // => { name: 'Smashing Conference Freiburg', year: 2023 }
 
   Object.pick(conference, (value) => typeof value === 'number')
-  // => { year: 2023, speakers: 84 }
+  // => { year: 2023, speakers: 13 }
 
   Object.omit(conference, (value) => typeof value === 'number')
-  // => { name: 'RivieraDEV', city: 'Sophia Antipolis' }
+  // => { name: 'Smashing Conference Freiburg', city: 'Freiburg' }
 ```
 
-On aura *peut-être* même droit à du sucre syntaxique pour la récupération par clés :
+We *might* even get syntactic sugar for picking!
 
 ```js
-  conference.{name, year} // => { name: 'RivieraDEV', year: 2023 }
+  conference.{name, year} // => { name: 'Smashing Conference Freiburg', year: 2023 }
 
   const keys = ['name', 'city']
-  conference.[...keys] // => { name: 'RivieraDEV', city: 'Sophia Antipolis' }
+  conference.[...keys] // => { name: 'Smashing Conference Freiburg', city: 'Freiburg' }
 ```
 
 ---
 
-# L'opérateur *pipeline* 🪄 <span class="stage">stade 2</span>
+# The pipeline operator 🪄 <span class="stage">stage 2</span>
 
-Nettoie considérablement les chaînes de traitement à base d'appels imbriqués, d'interpolation, d'arithmétique, etc.
+Massive cleanup of processing chains based on nested calls, interpolation, arithmetic operators, etc.
 
 <div style="display: flex; gap: 1em; justify-content: space-between">
 
 ```js
-// AVANT 🤮
+// BEFORE 🤮
 console.log(
   chalk.dim(
     `$ ${Object.keys(envars)
@@ -174,7 +165,7 @@ const result = Array.from(
 ```
 
 ```js
-// APRÈS 🤩
+// AFTER 🤩
 Object.keys(envars)
   .map(envar => `${envar}=${envars[envar]}`)
   .join(' ')
@@ -194,15 +185,15 @@ const result = numbers
 
 <Footnote>
 
-Notez que la syntaxe de substitution (`%`) n'est [pas du tout gravée dans le marbre](https://github.com/tc39/proposal-pipeline-operator/issues/91).
+Note that the substitution syntax (`%`) is [nowhere near settled.](https://github.com/tc39/proposal-pipeline-operator/issues/91)
 
 </Footnote>
 
 ---
 
-# Pattern matching 🤯 <span class="stage">stade 1</span>
+# Pattern matching 🤯 <span class="stage">stage 1</span>
 
-Expression `match`, qui fournit une sorte de `switch` structurel.  On a des équivalents en Rust, Python, F#, Elixir/Erlang, etc.  Je ne mets ici qu'un **minuscule aperçu** de ce que ça prévoit :
+A `match` expression that provides sort of a shape-based `switch`.  Has equivalents in Rust, Python, F#, Elixir/Erlang, etc.  This is just a **tiny peak** at what it envisions:
 
 ```js
 match (res) {
@@ -225,22 +216,22 @@ const commandResult = match (command) {
 
 ---
 
-# Enfin des regex *vraiment* lisibles ! 🎉 <span class="stage">stade 1</span>
+# Finally *truly* legible regexes! 🎉 <span class="stage">stage 1</span>
 
-Après Perl, C#, Ruby… JS pourrait enfin lui aussi recevoir une syntaxe étendue pour les regex.  Elle ignore le *whitespace* (dont les retours chariots) et les commentaires.  Miam !
+Perl, C#, Ruby have it…  JS might finally get fully extended regex syntax. This ignores whitespace (including carriage returns) and comments. Yummy!
 
 ```js
   const TAG_REGEX = new RegExp(String.raw`
     <
-    # Nom de la balise
+    # Tag name
     (?<tag>[\w-]+)
     \s+
-    # Attributs
+    # Attributes
     (?<attrs>.+?)
     >
-    # Contenu
+    # Contents
     (?<content>.+?)
-    # Balise fermante, qui correspond à l’ouvrante
+    # Closing tag, matching the opening one
     </\k<tag>>
   `, 'x')
 ```

@@ -3,21 +3,21 @@ layout: cover
 background: /covers/aaron-burden-CKlHKtCJZKk-unsplash.jpg
 ---
 
-# Petits rappels rapides :<br/>ES2020–2023
+# Quick refresher:<br/>ES2020–2023
 
-Une liste choisie des trucs que trop de gens on loupé 😉
+A curated list of things too few people heard about 😉
 
 ---
 
-# ES2020 : `String#matchAll`
+# ES2020: `String#matchAll`
 
-Capture **tous les groupes** pour une regex **globale** ou sticky.
+Captures **all groups** for a sticky or **global** regex.
 
 ```js
 const text = 'Get in touch at tel:0983450176 or sms:478-555-1234'
 
 text.match(/(?<protocol>[a-z]{3}):(?<number>[\d-]+)/g)
-// => ['tel:0983450176', 'sms:478-555-1234'] -- 😞 BAH ILS SONT OÙ MES GROUPES ?!
+// => ['tel:0983450176', 'sms:478-555-1234'] -- 😞 DUDE, WHERE ARE MY GROUPS?!
 ```
 
 ```js
@@ -32,17 +32,17 @@ Array.from(text.matchAll(/(?<protocol>[a-z]{3}):(?<number>[\d-]+)/g)).map((mr) =
 
 ---
 
-# ES2020 / ES2021 : `Promise.allSettled`/`any`
+# ES2020 / ES2021: `Promise.allSettled`/`any`
 
-Les deux combinateurs qui manquaient : `any` court-circuite sur le **premier accomplissement**, tandis que`allSettled` ne court-circuite pas : on obtient tous les établissements pour analyse.
+The two missing combinators: `any` short-circuits on the **first fulfillment**, whilst `allSettled` doesn't short-circuit at all: you get all settlements for analysis.
 
-Avec les `all`(court-circuite sur premier rejet) et `race` (court-circuite sur premier établissement) d'ES2015, on couvre désormais tous les cas.
+Together with `all` (short-circuits on first rejection) and `race` (short-circuits on first settlement) from ES2015, we now cover all scenarios.
 
 ```js
-// Que le succès le plus rapide gagne !
-const data = await Promise.any([fetchFromDB(), fetchFromHighSpeedLAN()])
+// May the fastest strategy win!
+const data = await Promise.any([fetchFromDB(), fetchFromCache(), fetchFromHighSpeedLAN()])
 
-// Exécute les tests en parallèle, sans court-circuit !
+// Run all tests in parallel, no short-circuit!
 await Promise.allSettled(tests)
 // => [
 //   { status: 'fulfilled', value: Response… },
@@ -53,55 +53,55 @@ await Promise.allSettled(tests)
 
 ---
 
-# ES2022 : `at()` sur les itérables natifs 🤩
+# ES2022: `at()` on position-based native iterables 🤩
 
-Tu vois comme `Array` et `String` te permettent d'utiliser des indices négatifs avec `slice`, `splice`, etc. mais ne les reconnaissent pas dans `[…]` ? Cette nouveauté permet d'aller récupérer les derniers éléments sans râler.
+You know how `Array` and `String` let you use negative indices with `slice`, `splice`, etc. but not with `[…]`? This novelty lets you grab last elements without a cringe.
 
-Désormais, sur **tous les itérables natifs** on a `.at(…)` qui autorise les indices négatifs !
+From now on, **all position-based native iterables** offer `.at(…)` that understands negative indices!
 
 ```js
-const cities = ['Antibes', 'Cannes', 'Nice', 'Toulon']
-cities.at(-1) // => 'Toulon'
-cities.at(-2) // => 'Nice'
+const cities = ['Freiburg', 'Antwerp', 'San Francisco', 'New York']
+cities.at(-1) // => 'New York'
+cities.at(-2) // => 'San Francisco'
 ```
 
 ---
 
-# ES2023 : Find From Last 😙
+# ES2023: Find From Last 😙
 
-Les `Array` ont `find` et `findIndex` depuis un bail (ES2015), mais quid de la recherche **depuis la fin** ?
+`Array`s have had `find` and `findIndex` for quite a while (ES2015), but what about searching **from the end**?
 
-Après tout, on a `reduceRight` et `lastIndexOf` depuis longtemps, pas vrai ?
+After all, we've had `reduceRight` and `lastIndexOf` since forever, right?
 
-Jusque-là on devait se fader nos propres boucles 😔 ou sortir la grosse artillerie en faisant un `reverse()` (mutatif !) d'abord, mais plus maintenant !
+Until recently you had to roll your own loops 😔 or bring out the big guns and do a (mutative!) `reverse()` first, but not anymore!
 
 ```js
-const codeInTheDarkLeaderboard = [
+const leaderboard = [
   { id: 'Bart', score: 91, firstTime: false },
   { id: 'Lisa', score: 102, firstTime: true },
   { id: 'Homer', score: 115, firstTime: true },
   { id: 'Marge', score: 138, firstTime: false },
 ]
 
-const bestFirstTimer = codeInTheDarkLeaderboard.findLast(({ firstTime }) => firstTime)
+const bestFirstTimer = leaderboard.findLast(({ firstTime }) => firstTime)
 // => { id: 'Homer', score: 115, firstTime: true }
-const bestUsualIndex = codeInTheDarkLeaderboard.findLastIndex(({ firstTime }) => !firstTime)
+const bestUsualIndex = leaderboard.findLastIndex(({ firstTime }) => !firstTime)
 // => 3
 ```
 
 ---
 
-# ES2023 : Change Array by Copy
+# ES2023: Change Array by Copy
 
-Une série de petits utilitaires en plus pour dériver des tableaux (immuable donc).  L'API de `Array` comptait jusqu'alors 8 méthodes dérivatives (produisant un nouveau tableau) pour 9 méthodes mutatives (qui modifient le tableau d'origine), y compris `reverse()` et `sort()`, ce que beaucoup de gens ne réalisaient pas !
+A series of cool utilities that let you derive arrays (yay immutability). `Array`'s API so far exposed 8 derivative methods (producing new arrays) and 9 mutative methods (modifying arrays in place), including `reverse()` and `sort()`, which many folks didn't realize were mutative!
 
 ```js
-const sameSlotSpeakers = ['Jean-Philippe', 'Gérard', 'Aleš', 'Benjamin']
+const todaysOtherKnownSpeakers = ['Christine', 'Elliot', 'Miriam', 'Harrison']
 
-sameSlotSpeakers.toReversed() // => ['Benjamin', 'Aleš', 'Gérard', 'Jean-Philippe']
-sameSlotSpeakers.toSorted() // => ['Aleš', 'Benjamin', 'Gérard', 'Jean-Philippe']
-sameSlotSpeakers.toSpliced(-2, 2) // => ['Aleš', 'Benjamin']
-sameSlotSpeakers.with(-2, 'Paligot') // => ['Jean-Philippe', 'Gérard', 'Paligot', 'Benjamin']
+todaysOtherKnownSpeakers.toReversed() // => ['Harrison', 'Miriam', 'Elliot', 'Christine']
+todaysOtherKnownSpeakers.toSorted() // => ['Miriam', 'Harrison', 'Elliot', 'Christine']
+todaysOtherKnownSpeakers.toSpliced(-2, 2) // => ['Miriam', 'Harrison']
+todaysOtherKnownSpeakers.with(-2, 'Suzanne') // => ['Christine', 'Elliot', 'Suzanne', 'Harrison']
 
-sameSlotSpeakers // => ['Jean-Philippe', 'Gérard', 'Aleš', 'Benjamin']
+todaysOtherKnownSpeakers // => ['Christine', 'Elliot', 'Miriam', 'Harrison']
 ```
