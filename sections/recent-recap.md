@@ -76,16 +76,16 @@ After all, we've had `reduceRight` and `lastIndexOf` since forever, right?
 Until recently you had to roll your own loops 😔 or bring out the big guns and do a (mutative!) `reverse()` first, but not anymore!
 
 ```js
-const leaderboard = [
-  { id: 'Bart', score: 91, firstTime: false },
-  { id: 'Lisa', score: 102, firstTime: true },
-  { id: 'Homer', score: 115, firstTime: true },
-  { id: 'Marge', score: 138, firstTime: false },
+const brightOnes = [
+  { name: 'Proxima Centauri', lightYears: 4.24, massKg: 2.428e29 },
+  { name: 'Sirius A', lightYears: 8.70, massKg: 3.978e30 },
+  { name: 'Tau Ceti', lightYears: 11.75, massKg: 1.557e30 },
+  { name: 'Altair', lightYears: 16.73, massKg: 3.56e30 },
 ]
 
-const bestFirstTimer = leaderboard.findLast(({ firstTime }) => firstTime)
-// => { id: 'Homer', score: 115, firstTime: true }
-const bestUsualIndex = leaderboard.findLastIndex(({ firstTime }) => !firstTime)
+const kindaFarthest = brightOnes.findLast(({ lightYears }) => lightYears <= 15)
+// => { name: 'Tau Ceti', lightYears: 11.75 }
+const farthestMassive = brightOnes.findLastIndex(({ massKg }) => massKg >= 3e30)
 // => 3
 ```
 
