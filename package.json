@@ -2,7 +2,7 @@
   "name": "smashing-freiburg-2023-javascript",
   "private": true,
   "scripts": {
-    "build": "slidev build --base=/smashing-freiburg-2023-javascript/",
+    "build": "slidev build --base=/confoo-es2026/",
     "dev": "slidev --open",
     "export": "slidev export"
   },
