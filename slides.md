@@ -1,9 +1,9 @@
 ---
 theme: ./theme
-titleTemplate: 'Things You Don’t Know about JavaScript in 2023. A talk by Christophe Porteneuve at Smashing Conference Freiburg 2023'
+titleTemplate: "What’s u pin ES206? A talk by Christophe Porteneuve at Confoo Montréal 2024"
 background: /covers/mosi-knife--PVgDgKXgZA-unsplash.jpg
 download: true
-exportFilename: smashing-freiburg-2023-javascript-porteneuve
+exportFilename: confoo-2024-es2026-porteneuve
 class: text-center
 highlighter: shiki
 monaco: false
@@ -14,20 +14,18 @@ fonts:
   serif: PT Sans
 
 info: |
-  ## Things You Don’t Know about JavaScript in 2023
+  ## What’s up in ES2026?
 
-  A talk by [Christophe Porteneuve](https://www.linkedin.com/in/christopheporteneuve/) at [Smashing Conference Freiburg 2023](https://smashingconf.com/freiburg-2023/).
-
-  Liked this? Our [kickass trainings](https://delicious-insights.com/en/trainings/) are for you!
+  A talk by [Christophe Porteneuve](https://www.linkedin.com/in/christopheporteneuve/) at [Confoo Montréal 2024](https://confoo.ca/en/2024).
 drawings:
   persist: false
   syncAll: false
 css: unocss
 ---
 
-# Things You Don’t Know about JavaScript in 2023
+# What’s up in ES2026?
 
-A talk by [Christophe Porteneuve](https://www.linkedin.com/in/christopheporteneuve/) at [Smashing Conference Freiburg 2023](https://smashingconf.com/freiburg-2023/)
+A talk by [Christophe Porteneuve](https://www.linkedin.com/in/christopheporteneuve/) at [Confoo Montréal 2024](https://confoo.ca/en/2024)
 
 ---
 src: ./sections/intro.md
@@ -45,7 +43,6 @@ src: ./sections/es2024.md
 src: ./sections/beyond.md
 ---
 
-
 ---
 layout: cover
 background: /covers/mosi-knife--PVgDgKXgZA-unsplash.jpg
@@ -53,11 +50,9 @@ background: /covers/mosi-knife--PVgDgKXgZA-unsplash.jpg
 
 # 🙏🏻 Thank you! 😊
 
-These slides are at [`bit.ly/freiburg-javascript`](https://bit.ly/freiburg-javascript).
+These slides are at [`bit.ly/confoo-es2026`](https://bit.ly/confoo-es2026).
 
-Christophe: [`@porteneuve`](https://twitter.com/porteneuve) / [`@porteneuve@piaille.fr`](https://piaille.fr/@porteneuve) / [LinkedIn](https://www.linkedin.com/in/christopheporteneuve/)<br/>
-Delicious Insights:
-[LinkedIn](https://www.linkedin.com/company/delicious-insights/) / [Trainings](https://delicious-insights.com/en/trainings/)
+Christophe: [`@porteneuve`](https://twitter.com/porteneuve) / [`@porteneuve@piaille.fr`](https://piaille.fr/@porteneuve) / [LinkedIn](https://www.linkedin.com/in/christopheporteneuve/)
 
 <div class="mt-8 text-sm" style="opacity: 0.5">
 

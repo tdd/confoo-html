@@ -1,10 +1,12 @@
 /* Couldn't figure out how to inject the HTML bits in the layout */
 
-@import url('https://fonts.googleapis.com/css2?family=Sriracha&family=Titillium+Web&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Sriracha&family=Titillium+Web&display=swap");
 
 :root {
   --slidev-theme-primary: #5d8392;
-  --slidev-code-font-family: "Operator Mono SSm A", "Operator Mono SSm B", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  --slidev-code-font-family: "Operator Mono SSm A", "Operator Mono SSm B",
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace !important;
 }
 
 .slidev-layout {
@@ -16,7 +18,9 @@
     @apply -mt-2 opacity-50 mb-4;
   } */
 
-  p + h2, ul + h2, table + h2 {
+  p + h2,
+  ul + h2,
+  table + h2 {
     @apply mt-10;
   }
 
@@ -58,7 +62,9 @@
     @apply text-6xl leading-20;
   }
 
-  a { color: yellow; }
+  a {
+    color: yellow;
+  }
 }
 
 .slidev-layout.fact {
@@ -100,23 +106,26 @@
 }
 
 .slidev-layout strong {
-  font-family: Sriracha, "PT Serif", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: Sriracha, "PT Serif", ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
   font-weight: 400; /* Avoid artificial bolding */
-  color: #f15a1c; /* DI orange */
+  color: #ff4773; /* Doctolib's berryblush */
   font-size: 105%;
 }
 
 /* Assuming the entire link is strong  */
 .slidev-layout a:has(> strong) {
-  color: #f15a1c;
+  color: #ff4773;
 }
 
 .slidev-layout:not(.cover) h1 {
-  color: #1da2b9; /* DI blue, darkened for AAA rating */
+  color: #107aca; /* Doctolib Oxylove blue */
 }
 
 .slidev-layout a {
-  color: #1da2b9;
+  color: #107aca;
   text-decoration: underline;
   border: 0 none transparent;
 }
@@ -125,7 +134,9 @@
   border-bottom: none;
 }
 
-.slidev-layout h1 { position: relative; }
+.slidev-layout h1 {
+  position: relative;
+}
 .slidev-layout h1 > .stage {
   position: absolute;
   /* display: inline-block; */

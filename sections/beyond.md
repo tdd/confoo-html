@@ -36,7 +36,7 @@ parisArrival.toString() // => '2020-03-08T19:05:00+01:00[Europe/Paris]')
 
 ---
 
-# Colleciton normalization and `Map#emplace()` <span class="stage">stage 2</span>
+# Collection normalization and `Map#emplace()` <span class="stage">stage 2</span>
 
 Lets you intercept incoming data for `Map`s so you can normalize / cleanup or even constraint / deny them.
 
@@ -136,6 +136,22 @@ We *might* even get syntactic sugar for picking!
 
   const keys = ['name', 'city']
   conference.[...keys] // => { name: 'Smashing Conference Freiburg', city: 'Freiburg' }
+```
+
+---
+
+# `Promise.try()` 🫡 <span class="stage">stage 2</span>
+
+A faster alternative to the usual `Promise.resolve().then(f)` or `new Promise((resolve) => resolve(f()))` shenanigans for allowing promise-based consumer semantics over a function that may be sync or async.
+
+Ensures same-tick execution when synchronous whilst being a lot more ergonomic!
+
+```js
+// `init` is a value-returning function that may be sync or promise-based async
+async function runProcess({ init... }) {
+  const initial = await Promise.try(init)
+  // ...
+}
 ```
 
 ---

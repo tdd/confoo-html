@@ -12,8 +12,14 @@ footer.footnote p {
   line-height: 1.3;
 }
 
-
 footer.footnote em {
   color: black;
   font-style: normal;
+}
+
+footer.absolute img {
+  height: 3em;
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
 }
