@@ -1,13 +1,13 @@
 {
-  "name": "smashing-freiburg-2023-javascript",
+  "name": "confoo-2024-html-unsung-super-hero",
   "private": true,
   "scripts": {
-    "build": "slidev build --base=/confoo-es2026/",
+    "build": "slidev build --base=/confoo-html/",
     "dev": "slidev --open",
     "export": "slidev export"
   },
   "dependencies": {
-    "@slidev/cli": "^0.41.1",
+    "@slidev/cli": "^0.48.0-beta.0",
     "@slidev/theme-default": "*",
     "@slidev/theme-seriph": "*"
   },
