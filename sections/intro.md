@@ -35,11 +35,11 @@ Two core missions:
 
 **700+ developers** and tech staff among 2,800+ Doctolibers. Great culture.
 
-Tech stack: Ruby/Rails, React/TypeScript, PostgreSQL, MongoDB, AWS.
+Tech stack: Ruby / Rails, Java / Spring Boot, React/TypeScript, PostgreSQL, MongoDB, AWS.
 
-Offices in Paris (HQ), Nantes, Niort, Berlin and Milan, nice remote policies.
+Offices in Paris (HQ), Nantes, Niort, Berlin and Milan, nice hybrid working policies.
 
-We're always hiring talented tech staff! Check out our [careers page](https://careers.doctolib.fr/)!
+We're always hiring talented tech staff! Check out our [careers page](https://careers.doctolib.com/tech-doctolib/)!
 
 ---
 layout: cover
