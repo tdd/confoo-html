@@ -1,5 +1,5 @@
 <template>
-  <table  id="temporalDemo">
+  <table ref="el">
     <tbody>
       <tr>
         <th><code>type="date"</code></th>
@@ -31,18 +31,17 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
+
+const el = ref()
 
 onMounted(() => {
-  const scope = document.getElementById('temporalDemo')
-  console.log(scope)
-  for (const field of scope.querySelectorAll('input')) {
+  for (const field of el.value.querySelectorAll('input')) {
     initTracking(field)
   }
 })
 
 function initTracking(field) {
-  console.log(field)
   const next = field.closest('td').nextElementSibling
 
   field.addEventListener('change', (e) => {
@@ -58,7 +57,7 @@ function initTracking(field) {
 }
 </script>
 
-<style>
+<style scoped>
 
 table {
   /* flex-grow: 1; */

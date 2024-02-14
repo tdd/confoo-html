@@ -184,61 +184,149 @@ If you don't absolutely insist on a custom UX for these, there's a **wealth** of
 
 <ExampleTemporal/>
 
-<!-- - `type="date"` for just the date
-- `type="time"` for just the time
-- `type="datetime-local"` for the whole 9 yards
-- `type="month"` for a date truncated at the month level
-- `type="week"` for a business week number -->
+<Footnote>
 
+`time` / `datetime-local` may go all the way to the millisecond (picker included), depending on the granularity of the value you're setting it up with. Defaults to minute granularity.
+
+</Footnote>
 
 ---
 
 # A word about placeholders…
 
+Placeholders are **not for important guidance**.
+
+They're only shown **when there is no value** (and usually dimmed), so the moment the user starts typing or autocompletes, they're gone.  For useful guidance, favor persisting text below / after the field.
+
+```html
+<!-- ✅  Correct: "true" (discardable) placeholder -->
+<input type="email" placeholder="john.mclane@nakatomi.co.jp" />
+
+<!-- ❌  Incorrect: user guidance that should persist -->
+<input type="ssn" placeholder="Use XXX-XX-XXXX format" />
+```
+
+You can **style placeholders** using the `::placeholder` pseudo-element and the `:placeholder-shown` pseudo-class (which is more specific than `:empty`, as it only targets empty textual fields *with a placeholder*).  
+
+**Don't use the same rendering style as actual values though!** This would confuse your users.
+
 ---
 
 # `multiple` is not just for `<select>`!
 
+It also works for:
+
+- `<input type="file" />` — allows multiple file selection<br/>
+  (use the `files` property rather than `value`, which would only return the first name)
+- `<input type="email" />` — allows multiple address input (separated by commas).
+  - Spec weirdness: on `<input type="email" multiple />`, the `required` attribute is ignored! 😨
+
+<ExampleMultiple />
+
 ---
 
-# Autocompletion on steroids
+# Built-in autocompletion: use proper scope & granularity
+
+The `autocomplete` attribute is not just `"on"` and `"off"`… It has [a truckload of normalized values](https://developer.mozilla.org/docs/Web/HTML/Attributes/autocomplete#values).
+
+You can **scope** these by:
+
+- standardized context (e.g. `shipping` and `billing` for address components and `home` / `work` / `mobile` / `fax` / `pager` for contact details such as phone numbers or e-mail)
+- custom context with `scope-*` (e.g. personal vs. business credentials, or other distinct identity providers).
+
+Some options totally rule, like `new-password`, `one-time-code` or `webauthn`. Check them out!
+
+Using these judiciously helps craft a **delightful UX**.
+
+How many times have you encountered an online payment form that didn't autocomplete your CC info properly? Or had your shipping address overwritten when autocompleting your billing address? That's what you get when someone didn't do this right.
+
+<Footnote>
+
+You can style an input that was filled through autocompletion using the `:autofill` pseudo-class.
+
+</Footnote>
 
 ---
 
-# Under-used input types: `color` and `range`
+# Built-in autocompletion: use proper scope & granularity
+
+<ExampleAutocomplete />
 
 ---
 
-# Using the webcam and microphone 🤯
+# Built-in autocompletion: providing your own values
+
+Almost all data input types (except `password`, `file`, `checkbox` and `radio`) support a `list=` attribute referencing a `<datalist>` element where you can provide a **specific list** for built-in autocompletion.
+
+The actual UI depends on the input type (e.g. first-phase dropdown, color palette, clickable slider ticks, etc.).
+
+<div style="display: flex; align-items: top; gap: 1rem">
+
+```html
+<input type="text" name="conference"
+  list="conferences" />
+
+<datalist id="conferences">
+  <option>ConFoo Montréal</option>
+  <option>DevOpsDays Montréal</option>
+  <option>dotJS</option>
+  …
+</datalist>
+```
+
+  <ExampleDatalist />
+</div>
+
+
+<Footnote>
+
+Note that so far, accessibility isn't on par with default autocompletion (font zooming, CSS availability, screen reading…). YMMV.
+
+</Footnote>
+
+---
+
+# Using the webcam, mic or local image gallery 🤯
+
+And this, **without `getUserMedia()`** (but **mostly on mobile devices**).
+
+<!-- 
+
+  multimédia (capture audio / vidéo) (type="file" capture=)
+    ::file-selector-button
+ -->
+
+<ExampleCapture />
+
+```html
+<input type="file" accept="image/*" capture="environment" />
+<input type="file" accept="video/*" capture="user" />
+<input type="file" accept="audio/*" capture="user" />
+<input type="file" accept="image/*" />
+```
 
 ---
 
 # Submitter power-ups
 
+<!-- 
+  form= (submission means hors du formulaire)
+  formaction= et formmethod=
+ -->
+
 ---
 
 # Manipulating form data
+
+<!-- 
+  fetch et FormData
+ -->
 
 ---
 
 # Blending custom validation
 <!--
-  type=date/time/datetime-local/month/week
-  autocapitalize=
-  autocomplete=
-    :autofill
-  placeholder= (attention à l'a11y !)
-    :placeholder-shown
-    ::placeholder
-  multiple= (email, file)
-  list= et <datalist> - https://www.builder.io/blog/powerful-html-tags#native-autocomplete-with-code-lt-datalist-gt-code
-  type=color
-  type=range
-    :in-range / :out-of-range
-  multimédia (capture audio / vidéo) (type="file" capture=)
-    ::file-selector-button
-  form= (submission means hors du formulaire)
-  formaction= et formmethod=
   HTML5 Validation API
-  fetch et FormData
+
+  extra slide on autocapitalize= / autocorrect= ?
 -->
