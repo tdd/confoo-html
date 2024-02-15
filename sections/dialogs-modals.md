@@ -9,12 +9,27 @@ We don't need no library for this!
 
 ---
 
-# FIXME
+# Native dialogs FTW!
 
-FIXME
+The `<dialog>` element, its API and the `::backdrop` pseudo-element go a long way. They're completely unstyled (so your hands are free) but provide all the UX and accessibility for you. Can work in modal or non-modal mode.
 
-<!--
-  <dialog> et ses amis… (::backdrop) - https://www.builder.io/blog/powerful-html-tags#the-og-html-modal-code-lt-dialog-gt-code
-    :modal
+<ExampleDialog />
 
--->
+```html
+<dialog>
+  <form>
+    …
+    <button type="submit" formmethod="dialog" value="yes" autofocus>Yes!</button>
+    <button type="submit" formmethod="dialog" value="no">Nope…</button>
+  </form>
+</dialog>
+```
+
+```js
+trigger.addEventListener('click', () => {
+  dialog.showModal() // .show() would be non-modal
+})
+dialog.addEventListener('close', () => {
+  // See dialog.returnValue -- not updated on Esc-based exit!
+})
+```
