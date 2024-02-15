@@ -124,6 +124,10 @@
   color: #107aca; /* Doctolib Oxylove blue */
 }
 
+.slidev-layout code {
+  color: #107aca;
+}
+
 .slidev-layout a {
   color: #107aca;
   text-decoration: underline;

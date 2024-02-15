@@ -309,24 +309,103 @@ And this, **without `getUserMedia()`** (but **mostly on mobile devices**).
 
 # Submitter power-ups
 
-<!-- 
-  form= (submission means hors du formulaire)
-  formaction= et formmethod=
- -->
+Did you know you can have a submitter **outside** of the form? Just use the `form=` attribute!
+
+```html
+<button type="submit" form="yourFormId">Apply</button>
+```
+
+Also you can have **multiple submitters with distinct behaviors** in the same form?
+
+```html
+<button type="submit" formmethod="post" formaction="/accounts/42">Update account</button>
+
+<button type="submit" formmethod="get" formaction="/accounts">Search accounts</button>
+```
+
+<Footnote>
+
+Also `formenctype` (for file uploads), `formnovalidate` and `formtarget`.
+
+</Footnote>
 
 ---
 
 # Manipulating form data
 
-<!-- 
-  fetch et FormData
- -->
+Time to stop using `form.elements` and tons of custom checks: use [`FormData`](https://developer.mozilla.org/docs/Web/API/FormData)!
+
+Interoperable with `fetch()` and `URLSearchParams`, and a JS synchronous iterable too (e.g. `for…of` loops, `Array.from()` or `Object.fromEntries()`).  Does reflect what would actually be submitted (e.g. filtering disabled fields, unchecked boxes, etc.). Plus, it's mutable (e.g. `append()`, `delete()`, `set()`).
+
+<div style="display: flex; align-items: top; gap: 1rem">
+
+```html
+<form id="form">
+  <input name="text1" value="foo" />
+  <input name="text2" value="bar" />
+  <input name="text2" value="baz" />
+  <input name="text3" disabled value="quux" />
+  <input type="checkbox" name="c" checked disabled />
+  <select name="text4" multiple>
+    <option value="hello" selected>Hello</option>
+    <option value="world">World</option>
+    <option value="cool" selected>Cool</option>
+  </select>
+</form>
+```
+
+```js
+// You can also pass a specific
+// submitter as 2nd arg
+const data = new FormData(form) 
+
+for (const [key, value] of formData) {
+  console.log(`${key}: ${value}`)
+  // 'text1: foo', 'text2: bar',
+  // 'text2: baz', 'text4: hello',
+  // 'text4: cool'
+}
+console.log(formData.getAll('text4'))
+// => 'hello,cool'
+```
+
+</div>
 
 ---
 
 # Blending custom validation
-<!--
-  HTML5 Validation API
 
-  extra slide on autocapitalize= / autocorrect= ?
--->
+So far we've only mentioned built-in navigation: `required`, `pattern`, `min`, `max`, `minlength`, etc.
+
+Major benefit: **built-in error-reporting UI**.
+
+But what about our business-logic validations? Are we doomed to re-implementing error reporting there?
+
+Enter the [Constraint Validation API](https://developer.mozilla.org/en-US/docs/Web/HTML/Constraint_validation).
+
+Validation is triggered by interactive form submission or explicit calls to `checkValidity()` / `reportValidity()` methods on forms or fields.
+
+We can provide custom validity info on any field by calling its `setCustomValidity()` method. You can also use it when eximining the field's `validity` information to replace built-in error messages with custom ones.
+
+---
+
+# Blending custom validation
+
+```html
+<input type="file" id="photo" name="photo" accept="image/*" />
+```
+
+```js
+const MAX_SIZE = { label: '100 KB', bytes: 100 * 1024 }
+
+const field = document.getElementById('photo')
+field.addEventListener('change', () => {
+  if (field.files.length > 0 && field.files[0].size > MAX_SIZE.bytes) {
+    field.setCustomValidity(`Photo file cannot exceed ${MAX_SIZE.label}`)
+  } else {
+    field.setCustomValidity('')
+  }
+})
+```
+
+<ExampleConstraint />
