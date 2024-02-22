@@ -42,7 +42,16 @@ onMounted(() => {
 })
 
 function initTracking(field) {
-  const next = field.closest('td').nextElementSibling
+  const cell = field.closest('td')
+  const next = cell.nextElementSibling
+
+  // Detect unsupported types, e.g. month/week on Firefox and Safari as of Feb 2024
+  if (field.getAttribute('type') !== field.type) {
+    cell.innerText = '(Unsupported on this browser)'
+    next.textContent = ''
+    return
+  }
+
 
   field.addEventListener('change', (e) => {
     next.textContent = field.value

@@ -40,3 +40,14 @@ Tech stack: Ruby / Rails, Java / Spring Boot, React/TypeScript, PostgreSQL, Mong
 Offices in Paris (HQ), Nantes, Niort, Berlin and Milan, nice hybrid working policies.
 
 We're always hiring talented tech staff! Check out our [careers page](https://careers.doctolib.com/tech-doctolib/)!
+
+---
+
+# These slides are interactive
+
+- <kbd>o</kbd> for overview
+- <kbd>d</kbd> to toggle dark mode
+- <kbd>f</kbd> for fullscreen
+- <kbd>g</kbd> to go to any slide by number / title fragment
+- All HTML renderings are interactive, play with them!
+- Hover on the bottom left corner for a toolbar

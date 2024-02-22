@@ -1,5 +1,5 @@
 <template>
-  <footer class="footnote" :style="style">
+  <footer class="footnote">
     <slot />
   </footer>
 </template>
